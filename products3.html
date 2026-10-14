@@ -45,7 +45,7 @@
                 // look through products and add categories if they are new
                 products.forEach(function(product) {
                     product.categories.forEach(function(cat) {
-                        if (categories.indexOf(cat) = -1) // only add the category if it is new
+                        if (categories.indexOf(cat) == -1) // only add the category if it is new
                             categories.push(cat);
                     });
                 });
