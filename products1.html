@@ -1,0 +1,91 @@
+<!-- 
+    Natalie Arai
+    CS20 Assignment 5: Product List in JSON
+    products1.html - Part 1 of the Product List assignment to create a JSON for the products list in a script
+-->
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>CS20 Assignment 5: Product List in JSON</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Products - Task 1</title>
+        <link rel="stylesheet" href="style.css">
+        <script>
+            // global variable that holds the product list as JSON
+            // also, categories is an array so a product can belong to more than one category
+            var products = [
+                {
+                    "name": "Vintage T-shirt",
+                    "description": "Tie-dye Grateful Deaad T-shirt",
+                    "price": 35,
+                    "categories": ["clothing", "vintage"]
+                },
+                {
+                    "name": "Denim Jacket",
+                    "description": "Faded 1980s denim jacket",
+                    "price": 60,
+                    "categories": ["clothing", "vintage", "outerwear"]
+                },
+                {
+                    "name": "Wool Beanie",
+                    "description": "Hand-knit merino green beanie",
+                    "price": 22,
+                    "categories": ["clothing", "accessories", "outdoors"]
+                },
+                {
+                    "name": "Record Player",
+                    "description": "Restored 1960s turntable with speakers",
+                    "price": 143,
+                    "categories": ["electronics", "vintage", "home"]
+                },
+                {
+                    "name": "Polaroid Camera",
+                    "description": "Refurbished, working instant camera",
+                    "price": 95,
+                    "categories": ["electronics", "vintage"]
+                },
+                {
+                    "name": "Cast Iron Skillet",
+                    "description": "Pre-seasoned 10-inch cast iron skillet",
+                    "price": 38,
+                    "categories": ["kitchen", "outdoors"]
+                },
+                {
+                    "name": "Camping Mug",
+                    "description": "Speckled blue enamel 12 oz mug",
+                    "price": 14,
+                    "categories": ["kitchen", "outdoors", "gifts"]
+                },
+                {
+                    "name": "Macrame Plant Hanger",
+                    "description": "Handmade macrame hanger for around 6-inch pots",
+                    "price": 18,
+                    "categories": ["clothing", "vintage"]
+                },
+                {
+                    "name": "Leather Journal",
+                    "description": "Worn leather-bound journal with lined pages",
+                    "price": 28,
+                    "categories": ["accessories", "gifts"]
+                },
+                {
+                    "name": "Bluetooth Speaker",
+                    "description": "Waterproof portable speaker with 12 hour lifespan",
+                    "price": 45,
+                    "categories": ["electronics", "outdoors"]
+                }
+            ];
+        </script>
+    </head>
+    <body>
+        <h1>Product List as a JSON String</h1>
+        <div class="json-string">
+            <script>
+                // serialize the JSON object into a string using JSON.stringify and write to page
+                var productString = JSON.stringify(products);
+                document.write(productString);
+            </script>
+        </div>
+    </body>
+</html>

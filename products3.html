@@ -1,0 +1,114 @@
+<!-- 
+    Natalie Arai
+    CS20 Assignment 5: Product List in JSON
+    products3.html - Part 4 of the Product List assignment to read products.json and fill a <select> with the appropriate categories
+-->
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Products - Task 4</title>
+        <link rel="stylesheet" href="style.css">
+        
+        <script>
+            // global copy of the product data si the filter button can reuse it
+            var products = [];
+
+            // builds the html for one product with name, description, price, catergoies
+            function formatProduct(product) {
+                var html = "<div class='product'>";
+                html += "<h3>" + product.name + "</h3>";
+                html += "<div>" + product.description + "</div>";
+                html += "<div class='price'>Price: $" + product.price + "</div>";
+                html += "<div>Categories: ";
+                // categories is an array, so need one pill for each
+                product.categories.forEach(function(cat) {
+                    html += "<span class='category'>" + cat + "</span>";
+                });
+                html += "</div></div>";
+                return html;
+            }
+
+            // display every product with all of its details
+            function showAll() {
+                var output = "";
+                for (var i = 0; i < products.length; i++) {
+                    output += formatProduct(products[i]);
+                }
+                document.getElementById("result").innerHTML = output;
+            }
+
+            // collect every category from the JSON data, sort them, and add one option per category to the drop down
+            function fillCategories() {
+                var categories = [];
+                // look through products and add categories if they are new
+                products.forEach(function(product) {
+                    product.categories.forEach(function(cat) {
+                        if (categories.indexOf(cat) = -1) // only add the category if it is new
+                            categories.push(cat);
+                    });
+                });
+                categories.sort();
+                // find the drop down menu
+                var select = document.getElementById("selCategory");
+                // loop through each category
+                categories.forEach(function(cat) {
+                    // create a new drop down menu
+                    var option = document.createElement("option");
+                    option.value = cat; // set option's value
+                    option.text = cat; // set the visible text
+                    select.appendChild(option); // add option to menu
+                });
+            }
+
+            // shows the names of the products that belong to a selected category
+            function filterProducts() {
+                // get the category selected by the user
+                var chosen = document.getElementById("selCategory").value;
+                var matches = products.filter(item => item.categories.indexOf(chosen) != -1); // find all products in the category
+                var output = "<h2>Products in \"" + chosen + "\"</h2><ul>";
+                // add each matching product to the list
+                matches.forEach(function(product) {
+                    output += "<li>" + product.name + "</li>";
+                });
+                output += "</ul>";
+                // display matching products on the page
+                document.getElementById("filterResult").innerHTML = output;
+            }
+
+            // on page load, read the JSON file using AJAX and connect the button to its event handler 
+            window.onload = function() {
+                // create an AJAX request
+                var request = new XMLHttpRequest();
+                request.open("GET", "products.json", true);
+                // define what happens when the request state changes
+                request.onreadystatechange = function() {
+                    if (request.readyState == 4 && request.status == 200) {
+                        // responseText is a string, so convert it to an object
+                        products = JSON.parse(request.responseText);
+                        fillCategories();
+                    }
+                    // if request fails
+                    else if (request.readyState == 4 && request.status != 200) {
+                        document.getElementById("filterResult").innerHTML = "<p class='error'>Could not load products.json.</p>";
+                    }
+                };
+                // send AJAX request
+                request.send();
+                document.getElementById("btnLoad").addEventListener("click", showAll); // connect the show all button
+                document.getElementById("btnFilter").addEventListener("click", filterProducts); // connect filter button
+            };
+        </script>
+    </head>
+    <body>
+        <h1>Our Products</h1>
+        <p>
+            <select id="selCategory"></select>
+            <button id="btnFilter">Filter</button>
+            <button id="btnLoad">Show All Products</button>
+        </p>
+        <div id="filterResult"></div>
+        <div id="result"></div>
+    </body>
+</html>

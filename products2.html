@@ -1,0 +1,65 @@
+<!-- 
+    Natalie Arai
+    CS20 Assignment 5: Product List in JSON
+    products2.html - Part 3 of the Product List assignment to display each product when a button is clicked
+-->
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Products - Task 3</title>
+        <link rel="stylesheet" href="style.css">
+        
+        <script>
+            // builds the html for one product with name, description, price, catergoies
+            function formatProduct(product) {
+                var html = "<div class='product'>";
+                html += "<h3>" + product.name + "</h3>";
+                html += "<div>" + product.description + "</div>";
+                html += "<div class='price'>Price: $" + product.price + "</div>";
+                html += "<div>Categories: ";
+                // categories is an array, so need one pill for each
+                product.categories.forEach(function(cat) {
+                    html += "<span class='category'>" + cat + "</span>";
+                });
+                html += "</div></div>";
+                return html;
+            }
+
+            // read products.json using AJAX and display every product
+            function loadProducts() {
+                var request = new XMLHttpRequest();
+                request.open("GET", "products.json", true);
+                request.onreadystatechange = function() {
+                    if (request.readyState == 4 && request.status == 200) {
+                        // responseText is a string, so convert it into an object
+                        var data = JSON.parse(request.responseText);
+                        // builds output from the products properly formatted
+                        var output = "";
+                        for (var i = 0; i < data.length; i++) {
+                            output += formatProduct(data[i]);
+                        }
+                        // displays the products on the webpage
+                        document.getElementById("result").innerHTML = output;
+                    }
+                    // lets me know when there are errors loading the JSON file; handles AJAX request fails
+                    else if (request.readyState == 4 && request.status != 200) {
+                        document.getElementById("result").innerHTML = "<p class='error'>Could not load products.json.</p>";
+                    }
+                };
+                // send AJAX request
+                request.send();
+            }
+            // connect the button to its event handler once the page loads
+            window.onload = function() {
+                document.getElementById("btnLoad").addEventListener("click", loadProducts);
+            };
+        </script>
+    </head>
+    <body>
+        <h1>Our Products</h1>
+        <button id="btnLoad">Show Products</button>
+        <div id="result"></div>
+    </body>
+</html>
