@@ -1,5 +1,5 @@
 /* Natalie Arai
- * Assignment 6: Product List in JSON
+ * Assignment 5: Product List in JSON
  * Shared stylesheet for products1-3.html and api.html 
  */
 
@@ -7,7 +7,7 @@
 body {
     background-color: #b8d3aa;
     color: #24312a;
-    margin:0 auto;
+    margin:0;
     padding: 20px;
     line-height: 1.5;
 }
@@ -16,7 +16,7 @@ h1, h2, h3 {
     color: #2f4a3a;
 }
 /* style for the button elements */
-button, select, input[type="text"] {
+button, select {
     font-size: 16px;
     padding: 8px 14px;
     margin: 4px 6px 4px 0;

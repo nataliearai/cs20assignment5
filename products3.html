@@ -55,10 +55,7 @@
                 // loop through each category
                 categories.forEach(function(cat) {
                     // create a new option for the drop down menu
-                    var option = document.createElement("option");
-                    option.value = cat; // set option's value
-                    option.text = cat; // set the visible text
-                    select.appendChild(option); // add option to menu
+                    select.innerHTML += "<option value='" + cat + "'>" + cat + "</option>";
                 });
             }
 
@@ -67,7 +64,7 @@
                 // get the category selected by the user
                 var chosen = document.getElementById("selCategory").value;
                 var matches = products.filter(item => item.categories.indexOf(chosen) != -1); // find all products in the category
-                var output = "<h2>Products in \"" + chosen + "\"</h2><ul>";
+                var output = "<h2>Products in '" + chosen + "'</h2><ul>";
                 // add each matching product to the list
                 matches.forEach(function(product) {
                     output += "<li>" + product.name + "</li>";
