@@ -1,0 +1,72 @@
+<!-- 
+    Natalie Arai
+    CS20 Assignment 5: Product List in JSON
+    api.html - use fetch() to request books from the Open Library Search API and displays the results found
+-->
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Book Finder - Open Library API</title>
+        <link rel="stylesheet" href="style.css">
+
+        <script>
+            // sends a request to the Open Library API and displays each books information
+            function getBooks() {
+                // search for books titled "The Hobbit" and limit results to 5
+                var url = "https://openlibrary.org/search.json?title=the+hobbit&limit=5";
+                // fetch sends a GET request to the API
+                fetch(url)
+                    // read the API response as text
+                    .then(res => res.text())
+                    .then(data => {
+                        data = JSON.parse(data); // string to object
+                        var output = "<ul>";
+                        // the books are in the docs array
+                        data.docs.forEach(book => {
+                            // use a default author if the book has no listed authors
+                            var author = "Unknown author";
+                            if (book.author_name)  // check because some books have no listed authors
+                                author = book.author_name.join(", ");
+                            // add the rest of the book's information to the list
+                            output += "<li><strong>" + book.title + "</strong> by " + author + " (first published " + book.first_publish_year + ")</li>";
+                        });
+                        output += "</ul>";
+                        document.getElementById("results").innerHTML = output;
+                    })
+                    // log any errors while fetching and processing data
+                    .catch(error => console.log(error));
+            }
+            // connect the button to its event handler once the page has loaded
+            window.onload = function() {
+                document.getElementById("btnBooks").addEventListener("click", getBooks);
+            };
+        </script>
+    </head>
+    <body>
+        <h1>Book Finder</h1>
+        <button id="btnBooks">Find "The Hobbit" books</button>
+        <!-- book results will be shown here by javascript -->
+        <div id="results"></div>
+        <h2>About this API</h2>
+        <h3>The API and why I chose it</h3>
+        <p>
+            I used the Open Library Search API, run by the Internet Archive because it searches millions of book records and returns titles, authors, and 
+            publication years in JSON. I chose it because it is free, needs no API key, and works with a simple GET request.
+        </p>
+        <h3>Where I found it</h3>
+        <p><a href="https://openlibrary.org/search.json?title=the+hobbit&limit=5" target="_blank">https://openlibrary.org/dev/docs/api/search</a></p>
+        <h3>Parameters used</h3>
+        <p>The request is: https://openlibrary.org/search.json?title=the+hobbit&amp;limit=5</p>
+        <ul>
+            <li><strong>title</strong> &ndash; the book title to search for.</li>
+            <li><strong>limit</strong> &ndash; the maximum number of results to return.</li>
+        </ul>
+        <h3>Where this API would be helpful</h3>
+        <p>
+            A library or used bookstore website could use this API to fill in a book's author and publication year automatically whenever the staff 
+            type in a title.
+        </p>
+    </body>
+</html>
